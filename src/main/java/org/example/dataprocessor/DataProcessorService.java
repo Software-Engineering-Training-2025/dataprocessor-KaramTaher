@@ -1,5 +1,9 @@
 package org.example.dataprocessor;
 
+import org.example.dataprocessor.Factory.AnalysisFactory;
+import org.example.dataprocessor.Factory.CleaningFactory;
+import org.example.dataprocessor.Factory.OutputFactory;
+import org.example.dataprocessor.Output.OutputInterface;
 import org.example.dataprocessor.enums.AnalysisType;
 import org.example.dataprocessor.enums.CleaningType;
 import org.example.dataprocessor.enums.OutputType;
@@ -29,6 +33,19 @@ public class DataProcessorService {
             AnalysisType analysisType,
             OutputType outputType,
             List<Integer> data) throws Exception {
+        //double c;
+//        if (data == null || data.isEmpty()){
+//            throw new IllegalArgumentException("data must not be null");
+//        }
+        List<Integer> cleanData= CleaningFactory.getCleaningType(cleaningType).clean(data);
+
+        double analysisData = AnalysisFactory.getAnalysisType(analysisType).analysis(cleanData);
+        OutputInterface output = OutputFactory.getOutputType(outputType);
+        output.print(analysisData);
+        return analysisData;
+
+
+
 
         // TODO: implement using the enums only (no long if/else ladders required,
         // but minimal branching to select behavior by enum is acceptable in this task).
@@ -38,7 +55,7 @@ public class DataProcessorService {
         // 3) Output according to outputType (console or target/result.txt).
         // 4) Return the numeric result.
 
-        throw new UnsupportedOperationException("Student must implement process(...)");
+        //throw new UnsupportedOperationException("Student must implement process(...)");
     }
 }
 
